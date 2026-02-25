@@ -7,7 +7,7 @@ Magnetic resonance imaging across different field strengths presents distinct tr
 
 **Architecture**  <br />
 
-![alt text](figures/Figure1.jpg)
+![alt text](figs/Figure1.png)
 
 **System Requirement**  <br />
 All the experiments are conducted on Ubuntu 20.04 Focal version with Python 3.8.
@@ -23,7 +23,7 @@ pip install -r requirements.txt
 **Dataset Preparation**  <br />
 The experiments are conducted on a in-house paired 64mT-3T and 3T-7T dataset,
   * UNC 3T-7T Dataset : [https://springernature.figshare.com/articles/dataset/UNC_Paired_3T-7T_Dataset/23706033](https://springernature.figshare.com/articles/dataset/UNC_Paired_3T-7T_Dataset/23706033)
-  * 
+    
 Separate each field MRI .npy slices using pre_process.py. 
 ```
 python pre_process.py
@@ -55,6 +55,73 @@ To train the model on the multi-field datasets.
 ```
 python train.py --image_size 256 --exp exp_multiField --num_channels 1 --num_channels_dae 64 --ch_mult 1 2 4 --num_timesteps 4 --num_res_blocks 2 --batch_size 3 --num_epoch 30 --ngf 64 --embedding_type positional --ema_decay 0.999 --r1_gamma 1. --z_emb_dim 256 --lr_d 1e-4 --lr_g 1.6e-4 --lazy_reg 10 --num_process_per_node 3
 ```
+**Hyperparameter Setting**  <br />
+<table style="border-collapse:collapse; width:100%; font-family:Arial, sans-serif; font-size:14px;">
+  <thead>
+    <tr style="border-top:2px solid #000; border-bottom:2px solid #000;">
+      <th style="text-align:left; padding:6px 8px;">Task</th>
+      <th style="text-align:left; padding:6px 8px;">Contrast</th>
+      <th style="text-align:center; padding:6px 8px;">PSNR (dB)</th>
+      <th style="text-align:center; padding:6px 8px;">SSIM (%)</th>
+      <th style="text-align:center; padding:6px 8px;">MAE (%)</th>
+      <th style="text-align:center; padding:6px 8px;">Timesteps</th>
+      <th style="text-align:center; padding:6px 8px;">&#955;<sub>c</sub></th>
+      <th style="text-align:center; padding:6px 8px;">&#955;<sub>s</sub></th>
+      <th style="text-align:center; padding:6px 8px;">&#955;<sub>R</sub></th>
+      <th style="text-align:center; padding:6px 8px;">Batch size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #000;">
+      <td style="text-align:left; padding:6px 8px;">ULF &#8594; HF</td>
+      <td style="text-align:left; padding:6px 8px;">T1w</td>
+      <td style="text-align:center; padding:6px 8px;">20.54 &plusmn; 1.71</td>
+      <td style="text-align:center; padding:6px 8px;">75.74 &plusmn; 5.88</td>
+      <td style="text-align:center; padding:6px 8px;">4.78 &plusmn; 1.17</td>
+      <td style="text-align:center; padding:6px 8px;">4</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">0.3</td>
+      <td style="text-align:center; padding:6px 8px;">1</td>
+    </tr>
+    <tr style="border-bottom:1px solid #000;">
+      <td style="text-align:left; padding:6px 8px;">ULF &#8594; HF</td>
+      <td style="text-align:left; padding:6px 8px;">T2w</td>
+      <td style="text-align:center; padding:6px 8px;">22.40 &plusmn; 1.54</td>
+      <td style="text-align:center; padding:6px 8px;">79.64 &plusmn; 7.58</td>
+      <td style="text-align:center; padding:6px 8px;">3.75 &plusmn; 0.94</td>
+      <td style="text-align:center; padding:6px 8px;">4</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">0.3</td>
+      <td style="text-align:center; padding:6px 8px;">1</td>
+    </tr>
+    <tr style="border-bottom:1px solid #000;">
+      <td style="text-align:left; padding:6px 8px;">HF &#8594; UHF</td>
+      <td style="text-align:left; padding:6px 8px;">T1w</td>
+      <td style="text-align:center; padding:6px 8px;">19.38 &plusmn; 1.25</td>
+      <td style="text-align:center; padding:6px 8px;">72.71 &plusmn; 5.87</td>
+      <td style="text-align:center; padding:6px 8px;">5.48 &plusmn; 1.40</td>
+      <td style="text-align:center; padding:6px 8px;">4</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">0.3</td>
+      <td style="text-align:center; padding:6px 8px;">1</td>
+    </tr>
+    <tr style="border-bottom:2px solid #000;">
+      <td style="text-align:left; padding:6px 8px;">HF &#8594; UHF</td>
+      <td style="text-align:left; padding:6px 8px;">T2w</td>
+      <td style="text-align:center; padding:6px 8px;">21.30 &plusmn; 1.71</td>
+      <td style="text-align:center; padding:6px 8px;">68.86 &plusmn; 10.10</td>
+      <td style="text-align:center; padding:6px 8px;">5.53 &plusmn; 1.48</td>
+      <td style="text-align:center; padding:6px 8px;">4</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">1.0</td>
+      <td style="text-align:center; padding:6px 8px;">0.3</td>
+      <td style="text-align:center; padding:6px 8px;">1</td>
+    </tr>
+  </tbody>
+</table>
 
 
 **Test Model**  <br />
