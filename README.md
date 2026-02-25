@@ -21,10 +21,11 @@ pip install -r requirements.txt
 ```
 
 **Dataset Preparation**  <br />
-The experiments are conducted on a in-house paired 64mT-3T and 3T-7T dataset,
+The experiments are conducted on an in-house paired 64mT-3T and 3T-7T dataset,
   * UNC 3T-7T Dataset : [https://springernature.figshare.com/articles/dataset/UNC_Paired_3T-7T_Dataset/23706033](https://springernature.figshare.com/articles/dataset/UNC_Paired_3T-7T_Dataset/23706033)
     
-Separate each field MRI .npy slices using pre_process.py. 
+First, extract the middle axial slices of each nifti file normalize and save as .npy 
+To derive high-field segmentations, use [SynthSeg++](https://github.com/BBillot/SynthSeg/tree/master) and similarly save segmentations as .npy
 ```
 python pre_process.py
 ```
@@ -37,6 +38,8 @@ data/
 │   │   └── hf_t1.npy
 │   │   └── 3T_t1.npy
 │   │   └── 7T_t1.npy
+│   │   └── hf_segs.npy
+│   │   └── uhf_segs.npy
 │   ├── test/
 │   │   ├── lf_t1.npy
 │   │   └── hf_t1.npy
