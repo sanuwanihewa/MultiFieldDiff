@@ -27,10 +27,7 @@ The experiments are conducted on an in-house paired 64mT-3T and 3T-7T dataset,
 First, extract the middle axial slices of each nifti file normalize and save as .npy 
 To derive high-field segmentations, use [SynthSeg++](https://github.com/BBillot/SynthSeg/tree/master) and similarly save segmentations as .npy
 ```
-python pre_process.py
-```
- Then, save the .npy data as in the following structure.
-```
+
 data/
 ├── T1/
 │   ├── train/
